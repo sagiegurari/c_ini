@@ -46,27 +46,11 @@ struct IniSpecification *ini_new_specification();
 struct Ini *ini_parse_string(char * /* ini_text */, struct IniSpecification *);
 
 /**
- * Parses the give file and returns the Ini structure.
- * In case of any error, this function will return null.
- * The specification paramter is optional and if not provided, the
- * default specification will be used.
- * The Ini structure must be fully released once done.
- */
-struct Ini *ini_parse_file(char * /* file */, struct IniSpecification *);
-
-/**
  * Writes the Ini struct as ini text and returns it.
  * This function will not validate the Ini structure is valid, for example
  * if multiple sections with same name exist.
  */
 char *ini_to_string(struct Ini *);
-
-/**
- * Writes the Ini struct as ini text to the provided file.
- * This function will not validate the Ini structure is valid, for example
- * if multiple sections with same name exist.
- */
-bool ini_write_to_file(struct Ini *, char * /* file */);
 
 /**
  * Releases the Ini struct and all internal memory used.

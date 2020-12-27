@@ -33,10 +33,9 @@ macro(add_external_lib)
 endmacro(add_external_lib)
 add_external_lib("stringfn")
 add_external_lib("string_buffer")
-add_external_lib("fsio")
 add_external_lib("vector")
 
-include_directories(include "${STRINGFN_INCLUDE}" "${STRING_BUFFER_INCLUDE}" "${FSIO_INCLUDE}" "${VECTOR_INCLUDE}")
+include_directories(include "${STRINGFN_INCLUDE}" "${STRING_BUFFER_INCLUDE}" "${VECTOR_INCLUDE}")
 
 # define all sources
 file(GLOB SOURCES "src/*.c")
@@ -54,7 +53,7 @@ if(DEFINED ENV{X_CMAKE_UNCRUSTIFY_ENABLED})
 endif()
 
 # create static library
-add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES} ${STRINGFN_SOURCES} ${STRING_BUFFER_SOURCES} ${FSIO_SOURCES} ${VECTOR_SOURCES})
+add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES} ${STRINGFN_SOURCES} ${STRING_BUFFER_SOURCES} ${VECTOR_SOURCES})
 if(NOT WIN32)
   set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES COMPILE_FLAGS "${X_CMAKE_C_FLAGS} -Wconversion")
 endif()

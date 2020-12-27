@@ -1,4 +1,3 @@
-#include "fsio.h"
 #include "ini.h"
 #include "test.h"
 #include <stdlib.h>
@@ -84,17 +83,7 @@ c1=1=2\n\
 \n";
   assert_string_equal(ini_text, normalized);
   free(ini_text);
-
-  bool done = ini_write_to_file(ini, "./complex_test.ini");
   ini_release_ini_structure(ini);
-  assert_true(done);
-  ini      = ini_parse_file("./complex_test.ini", NULL);
-  ini_text = ini_to_string(ini);
-  assert_string_equal(ini_text, normalized);
-  free(ini_text);
-  ini_release_ini_structure(ini);
-
-  fsio_remove("./complex_test.ini");
 } /* test_impl */
 
 

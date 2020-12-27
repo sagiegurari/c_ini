@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -30,11 +30,6 @@ jobs:
       with:
         repository: sagiegurari/c_string_buffer
         path: target/c_string_buffer
-    - name: Checkout c_fsio
-      uses: actions/checkout@v2
-      with:
-        repository: sagiegurari/c_fsio
-        path: target/c_fsio
     - name: Checkout c_vector
       uses: actions/checkout@v2
       with:

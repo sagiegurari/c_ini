@@ -1,4 +1,3 @@
-#include "fsio.h"
 #include "ini.h"
 #include "string_buffer.h"
 #include "stringfn.h"
@@ -143,22 +142,6 @@ struct Ini *ini_parse_string(char *ini_text, struct IniSpecification *specificat
   return(ini);
 } /* ini_parse_string */
 
-struct Ini *ini_parse_file(char *file, struct IniSpecification *specification)
-{
-  char *ini_text = fsio_read_text_file(file);
-
-  if (ini_text == NULL)
-  {
-    return(NULL);
-  }
-
-  struct Ini *ini = ini_parse_string(ini_text, specification);
-
-  free(ini_text);
-
-  return(ini);
-}
-
 
 char *ini_to_string(struct Ini *ini)
 {
@@ -187,23 +170,6 @@ char *ini_to_string(struct Ini *ini)
   string_buffer_release(buffer);
 
   return(ini_text);
-}
-
-
-bool ini_write_to_file(struct Ini *ini, char *file)
-{
-  char *ini_text = ini_to_string(ini);
-
-  if (ini_text == NULL)
-  {
-    return(false);
-  }
-
-  bool done = fsio_write_text_file(file, ini_text);
-
-  free(ini_text);
-
-  return(done);
 }
 
 
