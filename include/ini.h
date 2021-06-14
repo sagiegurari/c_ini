@@ -34,7 +34,7 @@ struct IniSpecification
  * It returns a default specification that is used by other functions
  * if no specification is provided to them.
  */
-struct IniSpecification *ini_new_specification();
+struct IniSpecification *ini_new_specification(void);
 
 /**
  * Parses the give string and returns the Ini structure.
