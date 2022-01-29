@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct IniKeyValue *_ini_split_key_value(struct StringBuffer *, char *);
-char *_ini_parse_value(struct StringBuffer *, char *, struct IniSpecification *);
-bool _ini_section_to_string(struct StringBuffer *, struct IniSection *);
-void _ini_release_ini_section(struct IniSection *);
+static struct IniKeyValue *_ini_split_key_value(struct StringBuffer *, char *);
+static char *_ini_parse_value(struct StringBuffer *, char *, struct IniSpecification *);
+static bool _ini_section_to_string(struct StringBuffer *, struct IniSection *);
+static void _ini_release_ini_section(struct IniSection *);
 
 struct IniSpecification *ini_new_specification()
 {
@@ -193,7 +193,7 @@ void ini_release_ini_structure(struct Ini *ini)
   free(ini);
 }
 
-struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, char *line)
+static struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, char *line)
 {
   string_buffer_clear(buffer);
 
@@ -253,7 +253,7 @@ struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, char *line
 } /* _ini_split_key_value */
 
 
-char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct IniSpecification *specification)
+static char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct IniSpecification *specification)
 {
   size_t value_length = strlen(value);
 
@@ -313,7 +313,7 @@ char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct IniSpeci
 } /* _ini_parse_value */
 
 
-void _ini_value_to_string(struct StringBuffer *buffer, char *value, bool is_key)
+static void _ini_value_to_string(struct StringBuffer *buffer, char *value, bool is_key)
 {
   if (value == NULL)
   {
@@ -340,7 +340,7 @@ void _ini_value_to_string(struct StringBuffer *buffer, char *value, bool is_key)
 }
 
 
-bool _ini_key_value_to_string(struct StringBuffer *buffer, struct IniKeyValue *key_value)
+static bool _ini_key_value_to_string(struct StringBuffer *buffer, struct IniKeyValue *key_value)
 {
   if (key_value == NULL)
   {
@@ -361,7 +361,7 @@ bool _ini_key_value_to_string(struct StringBuffer *buffer, struct IniKeyValue *k
 }
 
 
-bool _ini_section_to_string(struct StringBuffer *buffer, struct IniSection *section)
+static bool _ini_section_to_string(struct StringBuffer *buffer, struct IniSection *section)
 {
   if (section == NULL)
   {
@@ -392,7 +392,7 @@ bool _ini_section_to_string(struct StringBuffer *buffer, struct IniSection *sect
 }
 
 
-void _ini_release_ini_key_value(struct IniKeyValue *key_value)
+static void _ini_release_ini_key_value(struct IniKeyValue *key_value)
 {
   if (key_value == NULL)
   {
@@ -412,7 +412,7 @@ void _ini_release_ini_key_value(struct IniKeyValue *key_value)
 }
 
 
-void _ini_release_ini_section(struct IniSection *section)
+static void _ini_release_ini_section(struct IniSection *section)
 {
   if (section == NULL)
   {
