@@ -39,7 +39,7 @@ struct IniSpecification *ini_new_specification(void);
 /**
  * Parses the give string and returns the Ini structure.
  * In case of any error, this function will return null.
- * The specification paramter is optional and if not provided, the
+ * The specification parameter is optional and if not provided, the
  * default specification will be used.
  * The Ini structure must be fully released once done.
  */
