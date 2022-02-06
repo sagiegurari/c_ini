@@ -1,5 +1,5 @@
 #include "ini.h"
-#include "string_buffer.h"
+#include "stringbuffer.h"
 #include "stringfn.h"
 #include "vector.h"
 #include <stdlib.h>
@@ -34,7 +34,7 @@ struct Ini *ini_parse_string(char *ini_text, struct IniSpecification *specificat
     release_specification = true;
   }
 
-  struct StringBuffer    *buffer          = string_buffer_new();
+  struct StringBuffer    *buffer          = stringbuffer_new();
   struct Vector          *sections        = vector_new();
   struct Vector          *key_value_pairs = vector_new();
   struct StringFNStrings lines            = stringfn_split_lines_and_trim(ini_text);
@@ -124,7 +124,7 @@ struct Ini *ini_parse_string(char *ini_text, struct IniSpecification *specificat
   ini->count    = vector_size(sections);
   ini->sections = (struct IniSection **)vector_to_array(sections);
 
-  string_buffer_release(buffer);
+  stringbuffer_release(buffer);
   vector_release(key_value_pairs);
   vector_release(sections);
 
@@ -155,19 +155,19 @@ char *ini_to_string(struct Ini *ini)
     return(strdup(""));
   }
 
-  struct StringBuffer *buffer = string_buffer_new();
+  struct StringBuffer *buffer = stringbuffer_new();
 
   for (size_t index = 0; index < ini->count; index++)
   {
     if (!_ini_section_to_string(buffer, ini->sections[index]))
     {
-      string_buffer_release(buffer);
+      stringbuffer_release(buffer);
       return(NULL);
     }
   }
 
-  char *ini_text = string_buffer_to_string(buffer);
-  string_buffer_release(buffer);
+  char *ini_text = stringbuffer_to_string(buffer);
+  stringbuffer_release(buffer);
 
   return(ini_text);
 }
@@ -195,7 +195,7 @@ void ini_release_ini_structure(struct Ini *ini)
 
 static struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, char *line)
 {
-  string_buffer_clear(buffer);
+  stringbuffer_clear(buffer);
 
   size_t length = strlen(line);
   if (!length)
@@ -214,12 +214,12 @@ static struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, cha
     {
       if (character == '=')
       {
-        string_buffer_append(buffer, '=');
+        stringbuffer_append(buffer, '=');
       }
       else
       {
-        string_buffer_append(buffer, '\\');
-        string_buffer_append(buffer, character);
+        stringbuffer_append(buffer, '\\');
+        stringbuffer_append(buffer, character);
       }
 
       in_escape = false;
@@ -230,13 +230,13 @@ static struct IniKeyValue *_ini_split_key_value(struct StringBuffer *buffer, cha
     }
     else if (character == '=')
     {
-      key   = string_buffer_to_string(buffer);
+      key   = stringbuffer_to_string(buffer);
       value = stringfn_substring(line, (int)(index + 1), 0);
       break;
     }
     else
     {
-      string_buffer_append(buffer, character);
+      stringbuffer_append(buffer, character);
     }
   }
 
@@ -262,7 +262,7 @@ static char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct I
     return(value);
   }
 
-  string_buffer_clear(buffer);
+  stringbuffer_clear(buffer);
 
   bool in_escape = false;
   for (size_t index = 0; index < value_length; index++)
@@ -273,16 +273,16 @@ static char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct I
     {
       if (character == 'n')
       {
-        string_buffer_append(buffer, '\n');
+        stringbuffer_append(buffer, '\n');
       }
       else if (character == specification->comment_character)
       {
-        string_buffer_append(buffer, specification->comment_character);
+        stringbuffer_append(buffer, specification->comment_character);
       }
       else
       {
-        string_buffer_append(buffer, '\\');
-        string_buffer_append(buffer, character);
+        stringbuffer_append(buffer, '\\');
+        stringbuffer_append(buffer, character);
       }
 
       in_escape = false;
@@ -297,17 +297,17 @@ static char *_ini_parse_value(struct StringBuffer *buffer, char *value, struct I
     }
     else
     {
-      string_buffer_append(buffer, character);
+      stringbuffer_append(buffer, character);
     }
   }
 
   if (in_escape)
   {
-    string_buffer_append(buffer, '\\');
+    stringbuffer_append(buffer, '\\');
   }
 
   free(value);
-  value = string_buffer_to_string(buffer);
+  value = stringbuffer_to_string(buffer);
 
   return(value);
 } /* _ini_parse_value */
@@ -326,15 +326,15 @@ static void _ini_value_to_string(struct StringBuffer *buffer, char *value, bool 
   {
     if (value[index] == '\n')
     {
-      string_buffer_append_string(buffer, "\\n");
+      stringbuffer_append_string(buffer, "\\n");
     }
     else if (is_key && value[index] == '=')
     {
-      string_buffer_append_string(buffer, "\\=");
+      stringbuffer_append_string(buffer, "\\=");
     }
     else
     {
-      string_buffer_append(buffer, value[index]);
+      stringbuffer_append(buffer, value[index]);
     }
   }
 }
@@ -353,9 +353,9 @@ static bool _ini_key_value_to_string(struct StringBuffer *buffer, struct IniKeyV
   }
 
   _ini_value_to_string(buffer, key_value->key, true);
-  string_buffer_append(buffer, '=');
+  stringbuffer_append(buffer, '=');
   _ini_value_to_string(buffer, key_value->value, false);
-  string_buffer_append(buffer, '\n');
+  stringbuffer_append(buffer, '\n');
 
   return(true);
 }
@@ -370,9 +370,9 @@ static bool _ini_section_to_string(struct StringBuffer *buffer, struct IniSectio
 
   if (section->name != NULL && strlen(section->name))
   {
-    string_buffer_append(buffer, '[');
-    string_buffer_append_string(buffer, section->name);
-    string_buffer_append_string(buffer, "]\n");
+    stringbuffer_append(buffer, '[');
+    stringbuffer_append_string(buffer, section->name);
+    stringbuffer_append_string(buffer, "]\n");
   }
 
   if (section->key_value_pairs != NULL)
@@ -386,7 +386,7 @@ static bool _ini_section_to_string(struct StringBuffer *buffer, struct IniSectio
     }
   }
 
-  string_buffer_append(buffer, '\n');
+  stringbuffer_append(buffer, '\n');
 
   return(true);
 }
