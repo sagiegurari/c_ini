@@ -1,5 +1,5 @@
-#ifndef __INI_H__
-#define __INI_H__
+#ifndef INI_H
+#define INI_H
 
 #include <stdbool.h>
 #include <stddef.h>
