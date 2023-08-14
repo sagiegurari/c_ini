@@ -10,7 +10,7 @@ static char *_ini_parse_value(struct StringBuffer *, char *, struct IniSpecifica
 static bool _ini_section_to_string(struct StringBuffer *, struct IniSection *);
 static void _ini_release_ini_section(struct IniSection *);
 
-struct IniSpecification *ini_new_specification()
+struct IniSpecification *ini_new_specification(void)
 {
   struct IniSpecification *specification = malloc(sizeof(struct IniSpecification));
 
