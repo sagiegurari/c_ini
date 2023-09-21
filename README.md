@@ -19,6 +19,7 @@ This library provides both parsing INI text/files and creating INI text/files.
 <a name="usage"></a>
 ## Usage
 
+<!-- example source start -->
 ```c
 #include "ini.h"
 #include <stdio.h>
@@ -57,6 +58,7 @@ int main()
   return(0);
 }
 ```
+<!-- example source end -->
 
 ## Contributing
 See [contributing guide](.github/CONTRIBUTING.md)
